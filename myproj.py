@@ -1,3 +1,5 @@
+import sys
+
 # methods
 def init_Snap(archived_pnt, value, trade_date, time,POSITIVE_DEV,NEGATIVE_DEV):
     prev_val = float(archived_pnt['value'])
@@ -25,12 +27,23 @@ def snap2archive(snapshot, bool):
     }
 
 # SETUP STAGE
+if len(sys.argv) == 1:
+    path = raw_input("Enter the path of the textfile: ")
+    filename = raw_input("Enter the filename of the textfile: ")
+    POSITIVE_DEV = float(raw_input("Enter the maximum positive deviation (in %): "))/100
+    NEGATIVE_DEV = float(raw_input("Enter the maximum negative deviation (in %): "))/100
+    metric = raw_input("Enter the metric (open, close, high, low, volume): ")
+elif len(sys.argv) == 6:
+    print str(sys.argv)
+    path = sys.argv[1]
+    filename = sys.argv[2]
+    POSITIVE_DEV = float(sys.argv[3])/100
+    NEGATIVE_DEV = float(sys.argv[4])/100
+    metric = sys.argv[5]
+else:
+    raise Exception('run either with no arguements, or with arguements'
+     ' path, filename, positive_dev, negative_dev, metric')
 
-path = raw_input("Enter the path of the textfile: ")
-filename = raw_input("Enter the filename of the textfile: ")
-POSITIVE_DEV = float(raw_input("Enter the maximum positive deviation (in %): "))/100
-NEGATIVE_DEV = float(raw_input("Enter the maximum negative deviation (in %): "))/100
-metric = raw_input("Enter the metric (open, close, high, low, volume): ")
 output = '\nStarting Compression using the '+ metric \
         + ' price \nwith positive deviation '+ str(POSITIVE_DEV) \
         +'\nwith negative deviation '+ str(NEGATIVE_DEV) \
